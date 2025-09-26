@@ -12,6 +12,6 @@ Hier dokumentiere ich meine praktischen Projekte in den Bereichen **Arduino, Sen
 Arduino
 - Temperature and humidity measurement with **DHT11** and display on **LCD 16x2**  
 - Air conditioner control using **IR LED + 2N2222 transistor**  
-👉 [See the project](https://github.com/SoranaMitrea/arduino-projects)
+
 
 
