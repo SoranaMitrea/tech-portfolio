@@ -5,7 +5,7 @@ Collection of my practical projects in Arduino, Sensor Fusion, AI
 Welcome to my technical portfolio!  
 Here I document my practical projects in **Arduino, Sensor Fusion, and Artificial Intelligence (AI)**.  
 
-Willkommen in meinem technischen Portfolio!  
+Willkommen zu meinem technischen Portfolio!  
 Hier dokumentiere ich meine praktischen Projekte in den Bereichen **Arduino, Sensorfusion und Künstliche Intelligenz (KI)**.  
 
 
