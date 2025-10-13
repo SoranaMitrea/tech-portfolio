@@ -11,12 +11,12 @@ DHT dht(DHTPIN, DHTTYPE);
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 // ---- IR Setup ----
-const int IR_SEND_PIN = 9; // IR LED über Transistor an D9
+const int IR_SEND_PIN = 9; // IR LED Ã¼ber Transistor an D9
 IRsend irsend(IR_SEND_PIN);
 
 // ---- Klima Schwellenwerte ----
-const float T_ON = 22.0; // Einschalten >= 22°C
-const float T_OFF = 21.0; // Ausschalten unter <= 21°C
+const float T_ON = 22.0; // Einschalten >= 22Â°C
+const float T_OFF = 21.0; // Ausschalten unter <= 21Â°C
 bool klimaStatus = false; // false = aus, true = an
 
 // Sende-Parameter ---
