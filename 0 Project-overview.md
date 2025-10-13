@@ -1,6 +1,4 @@
-# tech-portfolio
-Collection of my practical projects in Arduino, Sensor Fusion, AI
-
+# Tech-portfolio
 
 Welcome to my technical portfolio!  
 Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)*.  
