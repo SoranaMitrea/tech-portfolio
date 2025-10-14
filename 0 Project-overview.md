@@ -14,9 +14,9 @@ Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial
 *Project no.2* : **Virtual Friction sensor**
 
 Real time estimation of tire-road friction coefficient using a combination of *empirical, classical ML and GenAI* approach
--   **Empirical Model** - calculates µtruth from real driving data
--   **Classical AI Model** - uses **sensor fusion** (IMU sensor, OBD2 data, Temp.-Humid.-Press. sensor) to predict friction in real time through supervised ML
--   **GenAI Model** - analyzes *acoustic patterns* from a microphone to detect surface conditions and refine µ estimation.
+-   Empirical Model - calculates µtruth from real driving data
+-   Classical AI Model - uses *sensor fusion* (IMU sensor, OBD2 data, Temp.-Humid.-Press. sensor) to predict friction in real time through supervised ML
+-   GenAI Model - analyzes *acoustic patterns* from a microphone to detect surface conditions and refine µ estimation.
 
   *The combined multi-layer architectures enables predictive and adaptive friction estimation for intelligent vehicle control and energy optimization.*
 
