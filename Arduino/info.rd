@@ -1,6 +1,5 @@
 Arduino Projects
 
-This folder contains my Arduino projects.
 Each project includes:
 - Arduino sketch ('.ino')
 - Circuit diagrams ('.fzz' from Tool Fritzing)
