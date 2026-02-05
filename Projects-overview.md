@@ -1,6 +1,6 @@
 # Tech-portfolio
 
-Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)*.  
+Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)*, etc.  
 
  -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -22,5 +22,5 @@ Real time estimation of tire-road friction coefficient using a combination of *e
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+*Project no.3* : **Quantensensor project**
 
