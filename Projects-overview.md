@@ -24,3 +24,8 @@ Real time estimation of tire-road friction coefficient using a combination of *e
 
 *Project no.3* : **Quantensensor project**
 
+Quantensensor  Magnetfelsimulation
+-  Simulation eines Magnetfeldsensors mit Noise, Drift und Spikes
+-  regelbasierte Anomalieerkennung (Threshold und Heuristiken)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
