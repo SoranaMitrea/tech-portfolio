@@ -29,3 +29,9 @@ Quantensensor  Magnetfelsimulation
 -  regelbasierte Anomalieerkennung (Threshold und Heuristiken)
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project no.4 : **Robotics/ AI_Platform**
+
+A modular ROS2-based robotics platform for autonomous service and event robots, combining sensor fusion, perception, navigation, human-robot interaction and AI modules such as object detection, speech interaction and face recognition.
+
+*The project demonstrates a system-level architecture for intelligent robots using Edge/Cloud integration, simulation, digital twins and AI-based decision support.*
+
