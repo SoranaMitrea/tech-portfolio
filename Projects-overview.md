@@ -1,3 +1,8 @@
+📄 **Hinweis:** Manche PDFs zeigen in GitHubs Vorschau (besonders in Firefox) den Fehler "Error rendering embedded code". Einfach oben rechts bei der Datei auf **"⋯" → Download** klicken, um sie zu öffnen.
+
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Tech-portfolio
 
 Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)*, etc.  
@@ -39,7 +44,7 @@ Quantensensor  Magnetfelsimulation
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Project no.4 : **Robotics/ AI_Platform**
+Project no.5 : **Robotics/ AI_Platform**
 
 A modular ROS2-based robotics platform for autonomous service and event robots, combining sensor fusion, perception, navigation, human-robot interaction and AI modules such as object detection, speech interaction and face recognition.
 
