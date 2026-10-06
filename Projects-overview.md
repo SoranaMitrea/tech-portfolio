@@ -1,55 +1,52 @@
- -------------------------------------------------------------------------------------------------------------------------------------------------------------
- -------------------------------------------------------------------------------------------------------------------------------------------------------------
-📄 **Hinweis:** Manche PDFs zeigen in GitHubs Vorschau (besonders in Firefox) den Fehler "Error rendering embedded code". 
-- Einfach oben rechts bei der Datei auf **"⋯" → Download** klicken, um sie zu öffnen.
+GitHub's preview (especially in Firefox).
+> - Click "…" → **Download** at the top right of the file to open it.
 
- -------------------------------------------------------------------------------------------------------------------------------------------------------------
- -------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
 # Tech-portfolio
 
-Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)* and Robotics
+Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, Artificial Intelligence (AI) and Robotics*.
 
- -------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+---
 
 *Project no.1* : **Automatic control of an air conditioning unit** *(temperature dependent)*
-- Temperature and humidity measurement with DHT11 Temperature and Humidity sensor and display on LCD 16x2  
-- Air conditioner control using IR LED + 2N2222 transistor
-  
----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-*Project no.2* : **Virtual Friction sensor**
+- Temperature and humidity measurement with a DHT11 sensor and display on an LCD 16x2
+- Air conditioner control using an IR LED and a 2N2222 transistor
 
-Real time estimation of tire-road friction coefficient using a combination of *empirical, classical ML and GenAI* approach
--   Empirical Model - calculates µtruth from real driving data
--   Classical AI Model - uses *sensor fusion* (IMU sensor, OBD2 data, Temp.-Humid.-Press. sensor) to predict friction in real time through supervised ML
--   GenAI Model - analyzes *acoustic patterns* from a microphone to detect surface conditions and refine µ estimation.
+---
 
-  *The combined multi-layer architectures enables predictive and adaptive friction estimation for intelligent vehicle control and energy optimization.*
+*Project no.2* : **Virtual Friction Sensor**
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Real-time estimation of the tire-road friction coefficient using a combination of *empirical, classical ML and GenAI* approaches.
+
+- Empirical model – calculates μ_truth from real driving data
+- Classical AI model – uses *sensor fusion* (IMU, OBD2 data, temperature, humidity and pressure sensors) to predict friction in real time through supervised ML
+- GenAI model – analyzes *acoustic patterns* from a microphone to detect surface conditions and refine the μ estimation
+
+*The combined multi-layer architecture enables predictive and adaptive friction estimation for intelligent vehicle control and energy optimization.*
+
+---
 
 *Project no.3* : **Edge_ML_Inference**
 
-Project Edge ML Inference entwickelt eine deterministische Edge-ML-Pipeline zur Echtzeit-Schätzung des Reifen-Straßen-Reibwerts aus IMU-, OBD2-, GPS/RaceChrono- und Umweltdaten.
-Die Sensorwerte werden synchronisiert, gepuffert, in Features umgewandelt und mit einem leichtgewichtigen Ridge-Regression-Modell direkt auf Edge-Hardware verarbeitet.
-Der Fokus liegt auf 100-ms-Zykluszeit, niedriger Latenz, interpretierbarem Modell und späterer Übertragbarkeit auf Embedded-/Automotive-SoC-Plattformen.
+A deterministic edge ML pipeline for real-time estimation of the tire-road friction coefficient from IMU, OBD2, GPS/RaceChrono and environmental data. Sensor values are synchronized, buffered, converted into features and processed directly on edge hardware with a lightweight ridge regression model. The focus is on a 100 ms cycle time, low latency, an interpretable model and later portability to embedded/automotive SoC platforms.
 
+---
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------
+*Project no.4* : **Quantum Sensor Project**
 
-*Project no.4* : **Quantensensor project**
+Quantum sensor magnetic field simulation
 
-Quantensensor  Magnetfelsimulation
--  Simulation eines Magnetfeldsensors mit Noise, Drift und Spikes
--  regelbasierte Anomalieerkennung (Threshold und Heuristiken)
+- Simulation of a magnetic field sensor with noise, drift and spikes
+- Rule-based anomaly detection (thresholds and heuristics)
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
-Project no.5 : **Robotics/ Unitree G1**
+*Project no.5* : **Robotics / Unitree G1**
 
 Commissioning and system integration of a Unitree G1 EDU humanoid robot (23 DoF):
+
 - DDS communication via `unitree_sdk2` (C++) and CycloneDDS, documented in a signal registry of 128 DDS topics
 - Voice dialogue with a local LLM (Ollama), speech output and arm gestures
 - Consent-based face recognition (OpenCV YuNet/SFace) with personalized greetings
