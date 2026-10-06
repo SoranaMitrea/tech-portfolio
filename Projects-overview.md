@@ -8,7 +8,7 @@
 
 # Tech-portfolio
 
-Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)*, etc.  
+Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, and Artificial Intelligence (AI)* and Robotics
 
  -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -47,9 +47,13 @@ Quantensensor  Magnetfelsimulation
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Project no.5 : **Robotics/ AI_Platform**
+Project no.5 : **Robotics/ Unitree G1**
 
-A modular ROS2-based robotics platform for autonomous service and event robots, combining sensor fusion, perception, navigation, human-robot interaction and AI modules such as object detection, speech interaction and face recognition.
+Commissioning and system integration of a Unitree G1 EDU humanoid robot (23 DoF):
+- DDS communication via `unitree_sdk2` (C++) and CycloneDDS, documented in a signal registry of 128 DDS topics
+- Voice dialogue with a local LLM (Ollama), speech output and arm gestures
+- Consent-based face recognition (OpenCV YuNet/SFace) with personalized greetings
+- Direct LiDAR access (Livox MID-360) with mounting orientation corrected via IMU
 
-*The project demonstrates a system-level architecture for intelligent robots using Edge/Cloud integration, simulation, digital twins and AI-based decision support.*
+Details: [Robotics/Unitree_G1](Robotics/Unitree_G1/README.md)
 
