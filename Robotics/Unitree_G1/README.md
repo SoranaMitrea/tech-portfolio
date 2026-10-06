@@ -1,24 +1,24 @@
-# Unitree G1 EDU: Inbetriebnahme, Systemintegration und Sprachdialog
+# Unitree G1 EDU: Commissioning, System Integration and Voice Dialogue
 
-Eigenes Projekt zur Inbetriebnahme und Integration eines humanoiden Roboters Unitree G1 EDU (23 DoF), Spitzname „Robby“. Ziel ist ein sprachgesteuerter, sensorbewusster Roboter, der Personen erkennt, mit ihnen spricht und Gesten ausführt – mit sauber dokumentierten Schnittstellen und nachvollziehbaren Messungen.
+Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Robby". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them and performs gestures – with cleanly documented interfaces and traceable measurements.
 
-## Überblick
+## Overview
 
-| Bereich | Umsetzung |
+| Area | Implementation |
 |---|---|
-| Netzwerk und Kommunikation | CycloneDDS über `unitree_sdk2` (C++), ohne ROS-2-Zwischenschicht |
-| Schnittstellenverzeichnis | 128 DDS-Topics im Stil einer DBC-Datei dokumentiert, dazu alle Nicht-DDS-Wege |
-| Sprachdialog | erkannter Text vom Roboter, lokales Sprachmodell, Sprachausgabe und Armgesten |
-| Gesichtserkennung | Erkennung und Wiedererkennung mit Einwilligung, Begrüßung mit Namen |
-| Personenprofile | SQLite, geladen nur für die bestätigte Person im Bild |
-| LiDAR | Livox MID-360 direkt am Entwicklungsrechner, Einbaulage per IMU korrigiert |
+| Network and communication | CycloneDDS via `unitree_sdk2` (C++), without a ROS 2 layer |
+| Interface registry | 128 DDS topics documented in the style of a DBC file, plus all non-DDS paths |
+| Voice dialogue | Recognized text from the robot, local language model, speech output and arm gestures |
+| Face recognition | Detection and re-identification with consent, greeting by name |
+| Personal profiles | SQLite, loaded only for the confirmed person in the image |
+| LiDAR | Livox MID-360 connected directly to the development PC, mounting orientation corrected via IMU |
 
-## Systemarchitektur
+## System Architecture
 
 ```mermaid
 flowchart LR
-    L["Entwicklungsrechner<br/>Ubuntu 22.04, RTX 5070<br/>Ollama, Gesichtserkennung"]
-    MC["Motion Controller<br/>Gelenke, Mikrofon, Lautsprecher"]
+    L["Development PC<br/>Ubuntu 22.04, RTX 5070<br/>Ollama, face recognition"]
+    MC["Motion Controller<br/>joints, microphone, speaker"]
     J["Jetson Orin NX<br/>Ubuntu 20.04<br/>RealSense D435i"]
     LI["Livox MID-360<br/>LiDAR"]
     L <-- "Ethernet, DDS" --> MC
@@ -26,38 +26,51 @@ flowchart LR
     L <-- "Ethernet, UDP" --> LI
 ```
 
-Alle Rechner liegen im internen Roboternetz und sind über Ethernet verbunden. DDS braucht eine direkte Verbindung im selben Netzsegment; über ein geroutetes WLAN findet der Entwicklungsrechner den Motion Controller nicht.
+Detailed view with all components, connection types and DDS topics:
 
-## Sprachdialog
+![Hardware and communication paths of the Unitree G1 EDU](docs/G1_architecture.png)
 
-1. Der Roboter erkennt gesprochene Sprache an Bord und sendet den Text per DDS.
-2. Ein C++-Programm schickt den Text mit Kontext an ein lokales Sprachmodell (Ollama, qwen3.5:9b).
-3. Die Antwort geht als Sprachausgabe an den Roboter, passende Armgesten laufen über den Arm-Dienst des SDK.
-4. Unterbrechungen werden erkannt, sodass der Roboter mitten im Satz aufhört, wenn jemand spricht.
+All computers are on the robot's internal network and connected via Ethernet. DDS requires a direct connection within the same network segment; over a routed Wi-Fi network, the development PC cannot discover the Motion Controller.
 
-Zusatzfunktionen: Begrüßung erkannter Personen mit Namen, Geburtstagsablauf und vorbereitete „Shows“ mit Sprache, Gesten und Tanz. Die gemessene Reaktionszeit vom Ende der Frage bis zum Beginn der Antwort liegt bei 2,4 bis 2,7 Sekunden.
+## Voice Dialogue
 
-Wichtig für das Verständnis: Das Sprachmodell erzeugt nur Text. Ob daraus eine Bewegung wird, entscheidet feste Logik im C++-Programm, nicht das Modell.
+1. The robot recognizes spoken language on board and sends the text via DDS.
+2. A C++ program sends the text with context to a local language model (Ollama, qwen3.5:9b).
+3. The response is sent to the robot as speech output; matching arm gestures run via the SDK's arm service.
+4. Interruptions are detected, so the robot stops mid-sentence when someone speaks.
 
-## Gesichtserkennung mit Einwilligung
+Additional features: greeting recognized people by name, a birthday routine and prepared "shows" combining speech, gestures and dance. The measured response time from the end of a question to the start of the answer is 2.4 to 2.7 seconds.
 
-- Erkennung und Wiedererkennung mit YuNet und SFace (OpenCV), Kamerabild über WLAN.
-- Neue Personen werden nur nach ausdrücklicher Zustimmung angelernt („Kennenlernen“).
-- Profile mit Name, Interessen und Notizen liegen lokal in SQLite und werden nur für die eine bestätigte Person im Bild geladen.
-- Keine Gesichtsdaten oder Profile in diesem Repository.
+Key design point: the language model only produces text. Whether a movement follows is decided by fixed logic in the C++ program, not by the model.
 
-## Messen statt vermuten: Beispiele
+## Consent-Based Face Recognition
 
-- **LiDAR falsch herum eingebaut:** Die Punktwolke wirkte plausibel. Erst die IMU-Daten des Sensors zeigten die Einbaulage. Korrigiert über eine Rollkorrektur in der Treiberkonfiguration.
-- **LiDAR-Rate:** Direkt am Entwicklungsrechner 10 Hz statt rund 3 Hz über den Umweg Motion Controller.
-- **Kamera am Jetson:** Ein lange vermuteter Kamerafehler war am Ende eine Steckverbindung, gefunden erst durch Nachsehen am Gerät.
-- **Vergleichbare Messungen:** Messwerte sind nur vergleichbar, wenn Betriebsmodus und Systemzustand gleich sind, etwa Dämpfungsmodus gegen aktiv oder frisch gestartet gegen lange laufend.
+- Detection and re-identification with YuNet and SFace (OpenCV), camera image via Wi-Fi.
+- New people are only enrolled after explicit consent ("getting to know you" flow).
+- Profiles with name, interests and notes are stored locally in SQLite and loaded only for the one confirmed person in the image.
+- No face data or profiles are stored in this repository.
 
-## Dokumentation
+## Measure, Don't Assume: Examples
 
-Zu jedem Thema gibt es ein eigenes technisches Dokument, darunter Inbetriebnahme, Netzwerk und Sensordaten, Kameraanbindung, LiDAR-Direktzugriff, Sprachdialog und Gesichtswiedererkennung. Das Signalverzeichnis trennt gemessene von vermuteten Angaben.
+- **LiDAR mounted upside down:** The point cloud looked plausible. Only the sensor's IMU data revealed the mounting orientation. Corrected with a roll correction in the driver configuration.
+- **LiDAR rate:** 10 Hz directly at the development PC instead of about 3 Hz via the Motion Controller.
+- **Jetson camera:** A long-suspected camera fault turned out to be a connector, found only by checking the hardware.
+- **Comparable measurements:** Values are only comparable if operating mode and system state are the same, e.g. damping mode vs. active, or freshly started vs. long-running.
 
-## Werkzeuge
+## Documentation
+
+Each topic has its own technical document, including commissioning, network and sensor data, camera integration, direct LiDAR access, voice dialogue and face re-identification. The signal registry separates measured from assumed information.
+
+## Contents of this folder
+
+| File | Content |
+|---|---|
+| [docs/G1_architecture.png](docs/G1_architecture.png) | Hardware and communication paths |
+| [docs/signal_registry_excerpt.md](docs/signal_registry_excerpt.md) | Verified DDS topics with measured rates |
+| [docs/commissioning_checklist.md](docs/commissioning_checklist.md) | Connecting the development PC, CycloneDDS setup, lessons learned |
+| [examples/read_state.cpp](examples/read_state.cpp) | Read-only example: IMU and arm joint values |
+| [examples/cyclonedds_g1.xml](examples/cyclonedds_g1.xml) | CycloneDDS configuration |
+
+## Tools
 
 C++ · Python · Unitree SDK2 · CycloneDDS · Linux (Ubuntu) · NVIDIA Jetson · Ollama · OpenCV · SQLite · Foxglove Studio · Livox SDK2
-

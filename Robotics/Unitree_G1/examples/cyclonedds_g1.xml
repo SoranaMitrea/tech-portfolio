@@ -1,0 +1,22 @@
+<!--
+  CycloneDDS configuration for the Unitree G1.
+  Save as ~/.config/cyclonedds/g1.xml and point to it with:
+    export CYCLONEDDS_URI=file://$HOME/.config/cyclonedds/g1.xml
+  Replace the interface name with your own USB-Ethernet adapter (see "ip link show").
+-->
+<CycloneDDS xmlns="https://cdds.io/config">
+    <Domain Id="any">
+        <General>
+            <Interfaces>
+                <NetworkInterface name="enx607d0912021e"
+                                  priority="default" multicast="default" />
+            </Interfaces>
+            <AllowMulticast>true</AllowMulticast>
+        </General>
+        <Tracing>
+            <!-- warning = normal operation | config = check XML | finest = diagnostics -->
+            <Verbosity>warning</Verbosity>
+            <OutputFile>stderr</OutputFile>
+        </Tracing>
+    </Domain>
+</CycloneDDS>
