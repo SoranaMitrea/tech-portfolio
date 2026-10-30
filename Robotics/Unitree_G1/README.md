@@ -1,6 +1,6 @@
 # Unitree G1 EDU: Commissioning, System Integration and Voice Dialogue
 
-Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Roky". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them, performs gestures and navigates to goals in a LiDAR map – with cleanly documented interfaces and traceable measurements.
+Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Rocky". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them, performs gestures and navigates to goals in a LiDAR map – with cleanly documented interfaces and traceable measurements.
 
 ## Overview
 
@@ -33,9 +33,8 @@ Detailed view with all components, connection types and DDS topics:
 
 ![Hardware and communication paths of the Unitree G1 EDU](docs/G1_architecture.png)
 
-A mobile router (GL.iNet Mudi 7) connected to the robot by cable puts the laptop on the same network segment via Wi-Fi (192.168.123.x).
-
 All computers are on the robot's internal network and connected via Ethernet. DDS requires a direct connection within the same network segment; over a routed Wi-Fi network, the development PC cannot discover the Motion Controller.
+A mobile router (GL.iNet Mudi 7) connected to the robot by cable puts the laptop on the same network segment via Wi-Fi (192.168.123.x).
 
 ## Voice Dialogue
 
