@@ -1,17 +1,20 @@
 # Unitree G1 EDU: Commissioning, System Integration and Voice Dialogue
 
-Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Robby". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them and performs gestures – with cleanly documented interfaces and traceable measurements.
+Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Roky". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them, performs gestures and navigates to goals in a LiDAR map – with cleanly documented interfaces and traceable measurements.
 
 ## Overview
 
 | Area | Implementation |
 |---|---|
-| Network and communication | CycloneDDS via `unitree_sdk2` (C++), without a ROS 2 layer |
+| Network and communication | CycloneDDS via unitree_sdk2 (C++) for control and voice; ROS 2 (rclpy) only for the LiDAR driver and the SLAM pose |
 | Interface registry | 128 DDS topics documented in the style of a DBC file, plus all non-DDS paths |
 | Voice dialogue | Recognized text from the robot, local language model, speech output and arm gestures |
 | Face recognition | Detection and re-identification with consent, greeting by name |
 | Personal profiles | SQLite, loaded only for the confirmed person in the image |
 | LiDAR | Livox MID-360 connected directly to the development PC, mounting orientation corrected via IMU |
+| Navigation | Goals in the LiDAR map sent from a local browser page; localization via the Unitree SLAM service |
+| Safety checks | Before each goal: allowed operating state, pose at most 3 s old, distance limit, dry run by default |
+| Room map | Semantic room map from the Livox MID-360, visualized in Foxglove Studio |
 
 ## System Architecture
 
@@ -43,6 +46,15 @@ Additional features: greeting recognized people by name, a birthday routine and 
 
 Key design point: the language model only produces text. Whether a movement follows is decided by fixed logic in the C++ program, not by the model.
 
+## Navigation and Safety Checks
+
+1. A map of the room is recorded with the Unitree SLAM service; named goals are defined in the map.
+2. A local browser page sends localization and navigation goals; the current pose is read via ROS 2 (`/slam_info`).
+3. Before every goal, the sender checks the operating state (fsm_id 500, 501 or 801), a pose age of at most 3 s and a distance of at most 3 m (test limit; absolute limit 10 m).
+4. Dry run is the default; a goal is only sent after explicit confirmation. The page runs locally only and asks for a new password at every start.
+
+Key design point: as with the voice dialogue, the safety checks are fixed logic in the sender, not a decision of a model.
+
 ## Consent-Based Face Recognition
 
 - Detection and re-identification with YuNet and SFace (OpenCV), camera image via Wi-Fi.
@@ -73,4 +85,4 @@ Each topic has its own technical document, including commissioning, network and 
 
 ## Tools
 
-C++ · Python · Unitree SDK2 · CycloneDDS · Linux (Ubuntu) · NVIDIA Jetson · Ollama · OpenCV · SQLite · Foxglove Studio · Livox SDK2
+C++ · Python · Unitree SDK2 · CycloneDDS · Linux (Ubuntu) · NVIDIA Jetson · Ollama · OpenCV · SQLite · Foxglove Studio · Livox SDK2 · ROS 2 (rclpy) · Livox ROS 2 Driver
