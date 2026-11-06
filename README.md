@@ -51,6 +51,7 @@ Commissioning and system integration of a Unitree G1 EDU humanoid robot (23 DoF)
 - Voice dialogue with a local LLM (Ollama), speech output and arm gestures
 - Consent-based face recognition (OpenCV YuNet/SFace) with personalized greetings
 - Direct LiDAR access (Livox MID-360) with mounting orientation corrected via IMU
+- SLAM-based navigation to named goals with fixed safety checks before every goal
 
 Details: [Robotics/Unitree_G1](Robotics/Unitree_G1/README.md)
 
