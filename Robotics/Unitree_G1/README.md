@@ -83,6 +83,8 @@ Each topic has its own technical document, including commissioning, network and 
 | [docs/commissioning_checklist.md](docs/commissioning_checklist.md) | Connecting the development PC, CycloneDDS setup, lessons learned |
 | [examples/read_state.cpp](examples/read_state.cpp) | Read-only example: IMU and arm joint values |
 | [examples/cyclonedds_g1.xml](examples/cyclonedds_g1.xml) | CycloneDDS configuration |
+| [architecture/adr/](architecture/adr/) | Architecture Decision Records |
+| [architecture/communication_paths.md](architecture/communication_paths.md) | Communication paths, Mermaid diagram |
 
 ## Tools
 
