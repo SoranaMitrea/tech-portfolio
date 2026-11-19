@@ -84,9 +84,7 @@ Each topic has its own technical document, including commissioning, network and 
 | [examples/read_state.cpp](examples/read_state.cpp) | Read-only example: IMU and arm joint values |
 | [examples/cyclonedds_g1.xml](examples/cyclonedds_g1.xml) | CycloneDDS configuration |
 | [architecture/adr/](architecture/adr/) | Architecture Decision Records |
-| [architecture/02_communication_paths.md](architecture/02_communication_paths.md) | Communication paths, Mermaid diagram |
-| [architecture/](architecture/) | Architecture layer: system decomposition, decision records, communication paths, FMEA and safety standards overview. Start with [architecture/README.md](architecture/README.md). |
-
+| [architecture/02_communication_paths.md](architecture/02_communication_paths.md) | Communication paths, Mermaid diagram || [architecture/](architecture/) | Architecture layer, files numbered in reading order: 01 system decomposition, 02 communication paths, decision records (adr/), 03 safety standards overview, 04 FMEA |
 ## Tools
 
 C++ · Python · Unitree SDK2 · CycloneDDS · Linux (Ubuntu) · NVIDIA Jetson · Ollama · OpenCV · SQLite · Foxglove Studio · Livox SDK2 · ROS 2 (rclpy) · Livox ROS 2 Driver
