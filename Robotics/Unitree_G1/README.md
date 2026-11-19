@@ -1,42 +1,92 @@
-# Architecture layer: Unitree G1 EDU
+# Unitree G1 EDU: Commissioning, System Integration and Voice Dialogue
 
-This folder describes the Unitree G1 EDU project at the level of an architecture: which functions and subsystems exist, which interfaces connect them, why the main decisions were taken, and which failures matter most. It sits on top of the working code and the measurements of the project. Public sources and own measurements only.
+Personal project on commissioning and integrating a Unitree G1 EDU humanoid robot (23 DoF), nicknamed "Rocky". The goal is a voice-controlled, sensor-aware robot that recognizes people, talks to them, performs gestures and navigates to goals in a LiDAR map – with cleanly documented interfaces and traceable measurements.
 
-## Reading order
+## Overview
 
-The files are numbered in reading order. The decision records in [`adr/`](adr/) are read after file 02.
-
-| File | Question it answers |
+| Area | Implementation |
 |---|---|
-| [`01_system_decomposition.md`](01_system_decomposition.md) | Which functions, subsystems and interfaces does the system have? What did the decomposition show? |
-| [`02_communication_paths.md`](02_communication_paths.md) | How do control, voice, goals, LiDAR and pose travel between the development PC and the robot? |
-| [`adr/`](adr/) | Why was each main decision taken, and which options were rejected? |
-| [`03_safety_standards_overview.md`](03_safety_standards_overview.md) | Which safety standards frame a robot, a drone and a road vehicle, and why ISO 26262 is only a pattern here |
-| [`04_fmea.md`](04_fmea.md) | Which failures matter most, and what is done about them? |
+| Network and communication | CycloneDDS via unitree_sdk2 (C++) for control and voice; ROS 2 (rclpy) only for the LiDAR driver and the SLAM pose |
+| Interface registry | 128 DDS topics documented in the style of a DBC file, plus all non-DDS paths |
+| Voice dialogue | Recognized text from the robot, local language model, speech output and arm gestures |
+| Face recognition | Detection and re-identification with consent, greeting by name |
+| Personal profiles | SQLite, loaded only for the confirmed person in the image |
+| LiDAR | Livox MID-360 connected directly to the development PC, mounting orientation corrected via IMU |
+| Navigation | Goals in the LiDAR map sent from a local browser page; localization via the Unitree SLAM service |
+| Safety checks | Before each goal: allowed operating state, pose at most 3 s old, distance limit, dry run by default |
+| Room map | Semantic room map from the Livox MID-360, visualized in Foxglove Studio |
 
-Five minutes: the figure and the findings in file 01, ADR-0001, and section 5 of file 04.
+## System Architecture
 
-Images are in [`../docs/`](../docs/).
+```mermaid
+flowchart LR
+    L["Development PC<br/>Ubuntu 22.04, RTX 5070<br/>Ollama, face recognition"]
+    MC["Motion Controller<br/>joints, microphone, speaker"]
+    J["Jetson Orin NX<br/>Ubuntu 20.04<br/>RealSense D435i"]
+    LI["Livox MID-360<br/>LiDAR"]
+    L <-- "Ethernet, DDS" --> MC
+    L <-- "Ethernet, SSH" --> J
+    L <-- "Ethernet, UDP" --> LI
+```
 
-## Decisions
+Detailed view with all components, connection types and DDS topics:
 
-| ADR | Decision |
+![Hardware and communication paths of the Unitree G1 EDU](docs/G1_architecture.png)
+
+All computers are on the robot's internal network and connected via Ethernet. DDS requires a direct connection within the same network segment; over a routed Wi-Fi network, the development PC cannot discover the Motion Controller.
+A mobile router (GL.iNet Mudi 7) connected to the robot by cable puts the laptop on the same network segment via Wi-Fi (192.168.123.x).
+
+## Voice Dialogue
+
+1. The robot recognizes spoken language on board and sends the text via DDS.
+2. A C++ program sends the text with context to a local language model (Ollama, qwen3.5:9b).
+3. The response is sent to the robot as speech output; matching arm gestures run via the SDK's arm service.
+4. Interruptions are detected, so the robot stops mid-sentence when someone speaks.
+
+Additional features: greeting recognized people by name, a birthday routine and prepared "shows" combining speech, gestures and dance. The measured response time from the end of a question to the start of the answer is 2.4 to 2.7 seconds.
+
+Key design point: the language model only produces text. Whether a movement follows is decided by fixed logic in the C++ program, not by the model.
+
+## Navigation and Safety Checks
+
+1. A map of the room is recorded with the Unitree SLAM service; named goals are defined in the map.
+2. A local browser page sends localization and navigation goals; the current pose is read via ROS 2 (`/slam_info`).
+3. Before every goal, the sender checks the operating state (fsm_id 500, 501 or 801), a pose age of at most 3 s and a distance of at most 3 m (test limit; absolute limit 10 m).
+4. Dry run is the default; a goal is only sent after explicit confirmation. The page runs locally only and asks for a new password at every start.
+
+Key design point: as with the voice dialogue, the safety checks are fixed logic in the sender, not a decision of a model.
+
+## Consent-Based Face Recognition
+
+- Detection and re-identification with YuNet and SFace (OpenCV), camera image via Wi-Fi.
+- New people are only enrolled after explicit consent ("getting to know you" flow).
+- Profiles with name, interests and notes are stored locally in SQLite and loaded only for the one confirmed person in the image.
+- No face data or profiles are stored in this repository.
+
+## Measure, Don't Assume: Examples
+
+- **LiDAR mounted upside down:** The point cloud looked plausible. Only the sensor's IMU data revealed the mounting orientation. Corrected with a roll correction in the driver configuration.
+- **LiDAR rate:** 10 Hz directly at the development PC instead of about 3 Hz via the Motion Controller.
+- **Jetson camera:** A long-suspected camera fault turned out to be a connector, found only by checking the hardware.
+- **Comparable measurements:** Values are only comparable if operating mode and system state are the same, e.g. damping mode vs. active, or freshly started vs. long-running.
+
+## Documentation
+
+Each topic has its own technical document, including commissioning, network and sensor data, camera integration, direct LiDAR access, voice dialogue and face re-identification. The signal registry separates measured from assumed information.
+
+## Contents of this folder
+
+| File | Content |
 |---|---|
-| [0001](adr/0001-control-and-voice-via-sdk2-cyclonedds.md) | Control, voice and navigation goals use unitree_sdk2 (C++) over CycloneDDS; ROS 2 only as read-only input |
-| [0002](adr/0002-livox-mid360-direct-at-development-pc.md) | The Livox MID-360 stream goes directly to the development PC |
-| [0003](adr/0003-language-model-produces-text-only.md) | The language model produces text only; motion is decided by fixed logic |
-| [0004](adr/0004-release-rules-before-navigation-goals.md) | Release rules are checked before every navigation goal |
+| [docs/G1_architecture.png](docs/G1_architecture.png) | Hardware and communication paths |
+| [docs/signal_registry_excerpt.md](docs/signal_registry_excerpt.md) | Verified DDS topics with measured rates |
+| [docs/commissioning_checklist.md](docs/commissioning_checklist.md) | Connecting the development PC, CycloneDDS setup, lessons learned |
+| [examples/read_state.cpp](examples/read_state.cpp) | Read-only example: IMU and arm joint values |
+| [examples/cyclonedds_g1.xml](examples/cyclonedds_g1.xml) | CycloneDDS configuration |
+| [architecture/adr/](architecture/adr/) | Architecture Decision Records |
+| [architecture/02_communication_paths.md](architecture/02_communication_paths.md) | Communication paths, Mermaid diagram |
+| [architecture/](architecture/) | Architecture layer: system decomposition, decision records, communication paths, FMEA and safety standards overview. Start with [architecture/README.md](architecture/README.md). |
 
-## How evidence is marked
+## Tools
 
-- **C**: measured or confirmed by a source (own measurement, own code, manufacturer documentation).
-- **A**: assumed or not verified.
-
-The two are kept apart in every table. Where a statement rests on an assumption, it says so.
-
-## Open points
-
-- All documents are drafts. The ADRs are not yet accepted.
-- Three measurements are outstanding and decide several FMEA rows: stopping delay and distance, a goal with the network cable unplugged (tethered), and navigation while the development PC LiDAR driver runs.
-- The hazard ratings (S, F, P) and the FMEA ratings are initial estimates by one author and have not been reviewed by a second person.
-- Nothing here is a safety case, and nothing claims conformity with any standard.
+C++ · Python · Unitree SDK2 · CycloneDDS · Linux (Ubuntu) · NVIDIA Jetson · Ollama · OpenCV · SQLite · Foxglove Studio · Livox SDK2 · ROS 2 (rclpy) · Livox ROS 2 Driver
