@@ -85,6 +85,7 @@ Each topic has its own technical document, including commissioning, network and 
 | [examples/cyclonedds_g1.xml](examples/cyclonedds_g1.xml) | CycloneDDS configuration |
 | [architecture/adr/](architecture/adr/) | Architecture Decision Records |
 | [architecture/communication_paths.md](architecture/communication_paths.md) | Communication paths, Mermaid diagram |
+| [architecture/](architecture/) | Architecture layer: system decomposition, decision records, communication paths, FMEA and safety standards overview. Start with [architecture/README.md](architecture/README.md). |
 
 ## Tools
 
