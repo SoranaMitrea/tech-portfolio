@@ -5,7 +5,7 @@
 - **Scope:** Goal-based navigation, voice dialogue and the release rules around them (ADR-0003, ADR-0004). Indoor use, one room, tethered tests.
 - **Input:** [`system_decomposition.md`](system_decomposition.md) (functions F1 to F16, interfaces I1 to I13, findings 1 to 8)
 
-![HARA and FMEA: how they fit together](../docs/hara_vs_fmea.png)
+![HARA and FMEA: how they fit together](../docs/hara_vs_fmea_rgb.png)
 
 ## 1 Concepts and method
 
