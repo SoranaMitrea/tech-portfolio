@@ -1,0 +1,35 @@
+name: G1 tests
+
+on:
+  push:
+    paths: ['Robotics/Unitree_G1/testing/**', '.github/workflows/g1-tests.yml']
+  pull_request:
+    paths: ['Robotics/Unitree_G1/testing/**']
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Robotics/Unitree_G1/testing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pytest
+        run: pip install pytest
+      - name: Run tests (Python bridge + C++ goal checks)
+        run: python -m pytest tests -v --junitxml=report/junit.xml
+      - name: Build traceability report
+        if: always()
+        run: |
+          python tools/report.py report/junit.xml requirements.md report/test_report.md
+          cat report/test_report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Keep report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: g1-test-report
+          path: Robotics/Unitree_G1/testing/report/
