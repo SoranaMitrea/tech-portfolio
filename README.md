@@ -60,13 +60,14 @@ Details: [Robotics/Unitree_G1](Robotics/Unitree_G1)
 
 *Project no.6* : **Test Automation & CI – Unitree G1**
 
-Automated verification of the G1 goal navigation, derived from requirements:
+Automated verification of the G1 goal navigation, derived from 11 requirements with IDs:
 
-- Requirement-based test cases with IDs (e.g. "go only with a pose ≤ 3 s old")
-- pytest test suite for the pose bridge: data format, update rate, missing data
-- Failure-case tests: connection loss, stale pose → motion command blocked
-- GitHub Actions pipeline: tests run automatically on every commit
-- Automatically generated test report with traceability to requirements
+- Pose bridge (Python): message parsing, malformed messages, heading, atomic file write, single instance
+- Goal safety checks (C++): pose ≤ 3 s old, distance limit, walking state, implausible goals
+- Failure cases simulated: stale pose, pose from the future, robot not walking, NaN goal
+- GitHub Actions pipeline: 49 tests run automatically on every commit
+- Automatically generated test report with traceability requirement → test → result
+- Two real defects found by the tests and documented as open findings
 
 Details: [Robotics/Unitree_G1/testing](Robotics/Unitree_G1/testing)
 
