@@ -1,11 +1,12 @@
-GitHub's preview (especially in Firefox).
-> - Click "…" → **Download** at the top right of the file to open it.
-
 ---
 
 # Tech-portfolio
 
 Welcome to my technical portfolio! Here I document my practical projects in *Arduino, Sensor Fusion, Artificial Intelligence (AI) and Robotics*.
+
+---
+
+**Latest:** Test automation & CI for the Unitree G1 → see Project no.6
 
 ---
 
@@ -53,5 +54,24 @@ Commissioning and system integration of a Unitree G1 EDU humanoid robot (23 DoF)
 - Direct LiDAR access (Livox MID-360) with mounting orientation corrected via IMU
 - SLAM-based navigation to named goals with fixed safety checks before every goal
 
-Details: [Robotics/Unitree_G1](Robotics/Unitree_G1/README.md)
+Details: [Robotics/Unitree_G1](Robotics/Unitree_G1)
+
+---
+
+*Project no.6* : **Test Automation & CI – Unitree G1**
+
+Automated verification of the G1 goal navigation, derived from requirements:
+
+- Requirement-based test cases with IDs (e.g. "go only with a pose ≤ 3 s old")
+- pytest test suite for the pose bridge: data format, update rate, missing data
+- Failure-case tests: connection loss, stale pose → motion command blocked
+- GitHub Actions pipeline: tests run automatically on every commit
+- Automatically generated test report with traceability to requirements
+
+Details: [Robotics/Unitree_G1/testing](Robotics/Unitree_G1/testing)
+
+
+
+
+
 
